@@ -1,13 +1,3 @@
-package p1;
-
-// ----------  ----------  ----------
-//
-// PLEASE READ | From Prof. Thai
-//
-// This code is incomplete!  It's provided as a starting point only.  Each student is welcome to implement their own UI
-// 
-// ----------  ----------  ----------
-
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +7,8 @@ import java.io.FileNotFoundException;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -42,8 +34,6 @@ public class PasswordMain extends BorderPane
 	private Label instruction5Label, instruction6Label;
 	
 	private TextField passwordText, passwordAText ;
-	private TextField passwordText0, passwordAText0 ;
-	private ArrayList<String> illegalPasswords;
 	private Button checkPwdButton, exitButton, checkPwdsInFileButton;
 	DecimalFormat format = new DecimalFormat("#0.000");
 	PasswordCheckerUtility pwdChecker;
@@ -51,7 +41,6 @@ public class PasswordMain extends BorderPane
 	public PasswordMain()
 	{
 		pwdChecker = new PasswordCheckerUtility();
-		illegalPasswords = new ArrayList<String>();
 		
 		VBox subpanel = new VBox();
 		instruction1Label = new Label("Use the following rules when creating your passwords:");
@@ -75,7 +64,6 @@ public class PasswordMain extends BorderPane
 		passwordLabel = new Label ("Password");
 		
 		passwordText = new TextField();
-		passwordText0 = new TextField();
 		HBox.setMargin(passwordLabel, new Insets(10,10,10,10));
 		HBox.setMargin(passwordText, new Insets(10,10,10,10));
 		subpanel1a.setAlignment(Pos.CENTER);
@@ -85,7 +73,6 @@ public class PasswordMain extends BorderPane
 		passwordALabel = new Label ("Re-type\nPassword");
 		
 		passwordAText = new TextField();
-		passwordAText0 = new TextField();
 		HBox.setMargin(passwordALabel, new Insets(10,10,10,10));
 		HBox.setMargin(passwordAText, new Insets(10,10,10,10));
 		subpanel1b.setAlignment(Pos.CENTER);
@@ -99,7 +86,7 @@ public class PasswordMain extends BorderPane
 				
 		checkPwdsInFileButton = new Button("Check Passwords in _File");
 		checkPwdsInFileButton.setOnAction(
-        		event -> {
+        		event -> { //TODO
         			try {
 						readFile();
 					} catch (Exception e) {
@@ -110,7 +97,36 @@ public class PasswordMain extends BorderPane
 		checkPwdButton = new Button ("Check _Password");
 		checkPwdButton.setOnAction(
         		event -> {
-        			addPassword();
+        			if (!(passwordText.getText().equals(passwordAText.getText()))) {
+        				//Display alert if the two text boxes don't match
+        				Alert mismatchAlert = new Alert(AlertType.WARNING);
+        				mismatchAlert.setHeaderText("Error");
+        				mismatchAlert.setContentText("The passwords do not match. " +
+        											"Please re-enter and try again.");
+        				mismatchAlert.showAndWait();
+        			}
+        			
+        			else {
+        				//Otherwise, validate the matching passwords
+        				try {
+        					PasswordCheckerUtility.isValidPassword(passwordText.getText());
+        					
+							//If valid, pop up window affirming valid password
+        					Alert validAlert = new Alert(AlertType.INFORMATION);
+        					validAlert.setHeaderText("Valid Password");
+        					validAlert.setContentText("The password is valid.");
+        					validAlert.showAndWait();
+        				}
+        				
+        				catch (RuntimeException e) {
+        					
+        					//If invalid, pop up the Exception message in a new Alert window
+        					Alert invalidAlert = new Alert(AlertType.WARNING);
+        					invalidAlert.setHeaderText("Invalid Password");
+        					invalidAlert.setContentText(e.getMessage());
+        					invalidAlert.showAndWait();
+        				}
+        			}
         		});
 		
 		exitButton = new Button("E_xit");
@@ -138,23 +154,8 @@ public class PasswordMain extends BorderPane
 	
 	}
 
-	public void addPassword() {
-		//Get information
-		System.out.println("Prof Thai: INCOMPLETE CODE!");
-	}
 
-
-
-	//Listens for the Display Apps button to be pressed
-	private class displayIllegalPasswords implements ActionListener
-	{
-		public void actionPerformed (ActionEvent theEvent)
-		{
-			System.out.println("Prof Thai: INCOMPLETE CODE!");
-		}
-	}
-
-	public void readFile() {
+	public void readFile() {//TODO
 			FileChooser chooser = new FileChooser();
 			System.out.println("Prof Thai: INCOMPLETE CODE!");
 			
