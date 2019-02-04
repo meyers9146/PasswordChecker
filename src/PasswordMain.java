@@ -18,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.text.*;
 import java.util.ArrayList;
@@ -83,14 +84,42 @@ public class PasswordMain extends BorderPane
 		VBox.setMargin(subpanel1b, new Insets(10,10,10,10));
 		subpanel1.setAlignment(Pos.CENTER);
 		subpanel1.getChildren().addAll(subpanel1a, subpanel1b);
-				
+		
+		//Check Passwords in File button allows the user to specify a text
+		//file for validating multiple passwords at once.
+		//An Alert window will pop up with any bad passwords found.
+		//An Alert window will also pop up if no file is found.
 		checkPwdsInFileButton = new Button("Check Passwords in _File");
 		checkPwdsInFileButton.setOnAction(
-        		event -> { //TODO
+        		event -> {
         			try {
-						readFile();
-					} catch (Exception e) {
-						e.printStackTrace();
+        				//Create ArrayList for validating names
+        				ArrayList<String> passwords = new ArrayList<>();
+        				
+        				//Allow the user to specify a file to read from.
+        				//That file is then read into the ArrayList
+						passwords = PasswordCheckerUtility.validPasswords(readFile());
+						
+						//Convert the ArrayList into a single String for display
+						String alertText = "";
+						for (String badPassword : passwords) {
+							alertText += badPassword + "\n";
+						}
+						
+						//Create the Alert and display the String of invalidated passwords
+						Alert badPasswordListAlert = new Alert(AlertType.WARNING);
+						badPasswordListAlert.setHeaderText("Invalid Passwords Found");
+						badPasswordListAlert.setContentText(alertText);
+						badPasswordListAlert.showAndWait();
+						}
+        			
+        			//If no file is found, display an Alert window
+					catch (FileNotFoundException e) {
+						
+						Alert fileNotFoundAlert = new Alert(AlertType.ERROR);
+						fileNotFoundAlert.setHeaderText("ERROR");
+						fileNotFoundAlert.setContentText("The specified file was not found");
+						fileNotFoundAlert.showAndWait();
 					}
         		});
 		
@@ -98,6 +127,7 @@ public class PasswordMain extends BorderPane
 		checkPwdButton.setOnAction(
         		event -> {
         			if (!(passwordText.getText().equals(passwordAText.getText()))) {
+        				
         				//Display alert if the two text boxes don't match
         				Alert mismatchAlert = new Alert(AlertType.WARNING);
         				mismatchAlert.setHeaderText("Error");
@@ -155,9 +185,28 @@ public class PasswordMain extends BorderPane
 	}
 
 
-	public void readFile() {//TODO
-			FileChooser chooser = new FileChooser();
-			System.out.println("Prof Thai: INCOMPLETE CODE!");
+	public ArrayList<String> readFile() throws FileNotFoundException {
+			
+		//Create ArrayList to return
+		ArrayList<String>passwords = new ArrayList<>();
+		
+		//Open up a FileChooser dialog in a new window
+		FileChooser fc = new FileChooser();
+		File file = fc.showOpenDialog(new Stage());
+		
+		//Open a scanner to read the file
+		Scanner scanner = new Scanner(file);
+		
+		//Read each line from the file and append it to the ArrayList
+		while(scanner.hasNextLine()) {
+			passwords.add(scanner.nextLine());
+		}
+		scanner.close(); //close scanner at end of file
+		
+		//Return generated ArrayList
+		return passwords;
+		}
+			
 			
 	}
-}
+

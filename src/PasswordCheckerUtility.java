@@ -104,7 +104,7 @@ public class PasswordCheckerUtility {
 	 * @param passwords
 	 * @return Any invalid passwords found in the argument ArrayList
 	 */
-	public ArrayList<String> validPasswords(ArrayList<String> passwords) {
+	public static ArrayList<String> validPasswords(ArrayList<String> passwords) {
 		
 		//Create empty ArrayList for populating with the bad passwords
 		ArrayList<String> invalidPasswords = new ArrayList<>();
