@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class PasswordCheckerUtility {
 	
 	/**
@@ -95,6 +97,32 @@ public class PasswordCheckerUtility {
 		}
 		
 		return false; //returns false if no doubles are found
+	}
+	
+	/**
+	 * Iterate through an ArrayList of passwords and validate each one in turn
+	 * @param passwords
+	 * @return Any invalid passwords found in the argument ArrayList
+	 */
+	public ArrayList<String> validPasswords(ArrayList<String> passwords) {
+		
+		//Create empty ArrayList for populating with the bad passwords
+		ArrayList<String> invalidPasswords = new ArrayList<>();
+		
+		for (int i = 0; i < passwords.size(); i++) {
+			//Validate each password in the argument ArrayList
+			try {
+				isValidPassword(passwords.get(i));
+			}
+			//Invalid passwords are added to the invalid password list along with their
+			//exception messages
+			catch (RuntimeException e) {
+				invalidPasswords.add(passwords.get(i) + " " + e.getMessage());
+			}
+		}
+		
+		//Return complete list of invalid passwords
+		return invalidPasswords;
 	}
 	
 	@SuppressWarnings("serial")
