@@ -1,35 +1,32 @@
-
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import javax.swing.JFrame;
 
 public class PasswordDriverFX extends Application{
 	
-   
+   /**
+    * Launch the GUI interface
+    * @param args arguments not used in program
+    */
    public static void main(String[] args){
 	   launch(args);
    }
    
+   /**
+    * Build the primary GUI window and display on launch
+    */
    public void start(Stage stage)
    {
 
-	   //call the main scene which is a BorderPane
+	   //call the main scene from the PasswordMain file
 	   PasswordMain mainPane = new PasswordMain();
-	   //PasswordMain root = mainPane.getTopContainer();
+
+	   //Set stage, scene, and title of window
 	   Scene scene = new Scene(mainPane, 550, 350);
 	   stage.setScene(scene);
 	   stage.setTitle("Password Checker");
+	   
+	   //Display window and GUI
 	   stage.show();
    }
    

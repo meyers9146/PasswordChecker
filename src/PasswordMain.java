@@ -24,10 +24,6 @@ import java.text.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
-
-
-
 
 public class PasswordMain extends BorderPane
 {
@@ -90,6 +86,8 @@ public class PasswordMain extends BorderPane
 		//An Alert window will pop up with any bad passwords found.
 		//An Alert window will also pop up if no file is found.
 		checkPwdsInFileButton = new Button("Check Passwords in _File");
+		checkPwdsInFileButton.setMnemonicParsing(true);
+		checkPwdsInFileButton.setTooltip(new Tooltip("Open a text file of passwords to check"));
 		checkPwdsInFileButton.setOnAction(
         		event -> {
         			try {
@@ -124,6 +122,8 @@ public class PasswordMain extends BorderPane
         		});
 		
 		checkPwdButton = new Button ("Check _Password");
+		checkPwdButton.setMnemonicParsing(true);
+		checkPwdButton.setTooltip(new Tooltip("Validate the entered password"));
 		checkPwdButton.setOnAction(
         		event -> {
         			if (!(passwordText.getText().equals(passwordAText.getText()))) {
@@ -160,6 +160,8 @@ public class PasswordMain extends BorderPane
         		});
 		
 		exitButton = new Button("E_xit");
+		exitButton.setMnemonicParsing(true);
+		exitButton.setTooltip(new Tooltip("Exit the program"));
 		
 	    //use a lambda expression for the EventHandler class for exitButton
 	    exitButton.setOnAction(
