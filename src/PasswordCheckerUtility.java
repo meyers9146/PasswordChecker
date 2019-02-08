@@ -7,7 +7,7 @@ public class PasswordCheckerUtility {
 	 * @param password the String to be examined
 	 * @return True if valid, False if invalid
 	 */
-	public static boolean isValidPassword(String password) {
+	public boolean isValidPassword(String password) {
 		if (password.length() > 6) {
 			if (containsUpperCaseLetter(password)) {
 				if (containsLowerCaseLetter(password)) {
@@ -32,7 +32,7 @@ public class PasswordCheckerUtility {
 	 * @return True if there is at least one digit present, False
 	 * if there are no digits
 	 */
-	public static boolean containsNumber(String password) {
+	public  boolean containsNumber(String password) {
 		char[] passwordChars = password.toCharArray();
 		
 		for (char character : passwordChars) {
@@ -50,7 +50,7 @@ public class PasswordCheckerUtility {
 	 * @return True if there is at least one upper case letter present, False
 	 * if there are none found
 	 */
-	public static boolean containsUpperCaseLetter(String password) {
+	public  boolean containsUpperCaseLetter(String password) {
 		char[] passwordChars = password.toCharArray();
 		
 		for(char character : passwordChars) {
@@ -68,7 +68,7 @@ public class PasswordCheckerUtility {
 	 * @return True if there is at least one lower case letter present, False
 	 * if there are none found
 	 */
-	public static boolean containsLowerCaseLetter(String password) {
+	public  boolean containsLowerCaseLetter(String password) {
 		char[] passwordChars = password.toCharArray();
 		
 		for(char character : passwordChars) {
@@ -86,7 +86,7 @@ public class PasswordCheckerUtility {
 	 * @param password The String to be examined
 	 * @return True if a matched pair is found, False if none found
 	 */
-	public static boolean hasDoubles(String password) {
+	public  boolean hasDoubles(String password) {
 		char[] passwordChars = password.toCharArray();
 		
 		//Return true if any character is identical to the following character
@@ -104,7 +104,7 @@ public class PasswordCheckerUtility {
 	 * @param passwords
 	 * @return Any invalid passwords found in the argument ArrayList
 	 */
-	public static ArrayList<String> validPasswords(ArrayList<String> passwords) {
+	public ArrayList<String> validPasswords(ArrayList<String> passwords) {
 		
 		//Create empty ArrayList for populating with the bad passwords
 		ArrayList<String> invalidPasswords = new ArrayList<>();
@@ -125,8 +125,24 @@ public class PasswordCheckerUtility {
 		return invalidPasswords;
 	}
 	
+	/**
+	 * Test if a password is valid, but weak. Weak passwords are those 
+	 * which are valid, but are only 6-10 characters in length
+	 * @param password the password to be tested
+	 * @return True if the password either isn't valid or is weak.
+	 * False if the password is both valid and not weak
+	 */
+	public boolean isWeakPassword(String password) {
+		if (isValidPassword(password) && password.length() > 10) {
+			return false;
+		}
+		
+		else return true;
+		
+	}
+	
 	@SuppressWarnings("serial")
-	public static class LengthException extends RuntimeException {
+	public  class LengthException extends RuntimeException {
 		public LengthException() {
 			super("The password must be at least 6 characters long");
 		}
@@ -138,7 +154,7 @@ public class PasswordCheckerUtility {
 	}
 	
 	@SuppressWarnings("serial")
-	public static class NoUpperAlphaException extends RuntimeException {
+	public  class NoUpperAlphaException extends RuntimeException {
 		public NoUpperAlphaException() {
 			super("The password must contain at least one uppercase " +
 					"alphabetic character");
@@ -150,7 +166,7 @@ public class PasswordCheckerUtility {
 	}
 	
 	@SuppressWarnings("serial")
-	public static class NoLowerAlphaException extends RuntimeException {
+	public  class NoLowerAlphaException extends RuntimeException {
 		public NoLowerAlphaException() {
 			super("The password must contain at least one lowercase " +
 					"alphabetic character");
@@ -162,7 +178,7 @@ public class PasswordCheckerUtility {
 	}
 	
 	@SuppressWarnings("serial")
-	public static class NoDigitException extends RuntimeException {
+	public  class NoDigitException extends RuntimeException {
 		public NoDigitException() {
 			super("The password must contain at least one digit");
 		}
@@ -173,7 +189,7 @@ public class PasswordCheckerUtility {
 	}
 	
 	@SuppressWarnings("serial")
-	public static class InvalidSequenceException extends RuntimeException {
+	public  class InvalidSequenceException extends RuntimeException {
 		public InvalidSequenceException() {
 			super("The password cannot contain more " +
 					"than two of the same character in " +

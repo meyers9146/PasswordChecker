@@ -1,9 +1,6 @@
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,20 +8,24 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-
 import java.text.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/**
+ * Create a GUI for use with the PasswordDriverFX and PasswordCheckerUtility classes.
+ * Used for entering one or multiple passwords for validation
+ * @author Gary Thai, with contributions by Michael Meyers
+ *
+ */
 public class PasswordMain extends BorderPane
 {
 	private Label passwordLabel, passwordALabel, instruction1Label, instruction2Label,instruction3Label,instruction4Label;
@@ -35,6 +36,7 @@ public class PasswordMain extends BorderPane
 	DecimalFormat format = new DecimalFormat("#0.000");
 	PasswordCheckerUtility pwdChecker;
 	
+
 	public PasswordMain()
 	{
 		pwdChecker = new PasswordCheckerUtility();
@@ -96,20 +98,32 @@ public class PasswordMain extends BorderPane
         				
         				//Allow the user to specify a file to read from.
         				//That file is then read into the ArrayList
-						passwords = PasswordCheckerUtility.validPasswords(readFile());
-						
-						//Convert the ArrayList into a single String for display
-						String alertText = "";
-						for (String badPassword : passwords) {
-							alertText += badPassword + "\n";
+						passwords = pwdChecker.validPasswords(readFile());
+
+						//If all passwords were valid, display information alert
+						if (passwords.size() == 0) {
+							Alert validPasswordListAlert = new Alert(AlertType.INFORMATION);
+							validPasswordListAlert.setHeaderText("Password Check Cleared");
+							validPasswordListAlert.setContentText("No invalid passwords found");
+							validPasswordListAlert.showAndWait();
 						}
 						
-						//Create the Alert and display the String of invalidated passwords
-						Alert badPasswordListAlert = new Alert(AlertType.WARNING);
-						badPasswordListAlert.setHeaderText("Invalid Passwords Found");
-						badPasswordListAlert.setContentText(alertText);
-						badPasswordListAlert.showAndWait();
-						}
+						//If invalid passwords were found, display Alert window with the 
+						//bad passwords and their error messages
+						else {
+							//Convert the ArrayList into a single String for display
+							String alertText = "";
+							for (String badPassword : passwords) {
+								alertText += badPassword + "\n";
+							}
+							
+							//Create the Alert and display the String of invalidated passwords
+							Alert badPasswordListAlert = new Alert(AlertType.WARNING);
+							badPasswordListAlert.setHeaderText("Invalid Passwords Found");
+							badPasswordListAlert.setContentText(alertText);
+							badPasswordListAlert.showAndWait();
+							}
+        				}
         			
         			//If no file is found, display an Alert window
 					catch (FileNotFoundException e) {
@@ -119,6 +133,9 @@ public class PasswordMain extends BorderPane
 						fileNotFoundAlert.setContentText("The specified file was not found");
 						fileNotFoundAlert.showAndWait();
 					}
+        			
+        			//If the user closes the window without selecting anything, do nothing
+        			catch (NullPointerException e) {}
         		});
 		
 		checkPwdButton = new Button ("Check _Password");
@@ -139,7 +156,7 @@ public class PasswordMain extends BorderPane
         			else {
         				//Otherwise, validate the matching passwords
         				try {
-        					PasswordCheckerUtility.isValidPassword(passwordText.getText());
+        					pwdChecker.isValidPassword(passwordText.getText());
         					
 							//If valid, pop up window affirming valid password
         					Alert validAlert = new Alert(AlertType.INFORMATION);
@@ -171,7 +188,6 @@ public class PasswordMain extends BorderPane
         		}
         	);
 		 
-	
 		HBox buttonPanel = new HBox();
 		HBox.setMargin(checkPwdButton, new Insets(10,10,10,10));
 		HBox.setMargin(checkPwdsInFileButton, new Insets(10,10,10,10));
@@ -187,28 +203,29 @@ public class PasswordMain extends BorderPane
 	}
 
 
-	public ArrayList<String> readFile() throws FileNotFoundException {
+	public ArrayList<String> readFile() throws FileNotFoundException, NullPointerException {
 			
 		//Create ArrayList to return
 		ArrayList<String>passwords = new ArrayList<>();
 		
 		//Open up a FileChooser dialog in a new window
 		FileChooser fc = new FileChooser();
+		fc.getExtensionFilters().add(new ExtensionFilter("TXT files (*.txt)", "*.txt"));
 		File file = fc.showOpenDialog(new Stage());
 		
 		//Open a scanner to read the file
-		Scanner scanner = new Scanner(file);
 		
+		Scanner scanner = new Scanner(file);
+	
 		//Read each line from the file and append it to the ArrayList
 		while(scanner.hasNextLine()) {
 			passwords.add(scanner.nextLine());
 		}
-		scanner.close(); //close scanner at end of file
+		
+		scanner.close(); // close scanner at end of file
 		
 		//Return generated ArrayList
 		return passwords;
-		}
-			
-			
 	}
-
+	
+}
