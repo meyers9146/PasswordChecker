@@ -23,17 +23,21 @@ import java.util.Scanner;
 /**
  * Create a GUI for use with the PasswordDriverFX and PasswordCheckerUtility classes.
  * Used for entering one or multiple passwords for validation
- * @author Gary Thai, with contributions by Michael Meyers
+ * @author Michael Meyers
  *
  */
 public class PasswordMain extends BorderPane
 {
+	//Create the labels for UI items
 	private Label passwordLabel, passwordALabel, instruction1Label, instruction2Label,instruction3Label,instruction4Label;
 	private Label instruction5Label, instruction6Label;
 	
+	//Create text fields for password entry
 	private TextField passwordText, passwordAText ;
 	private Button checkPwdButton, exitButton, checkPwdsInFileButton;
 	DecimalFormat format = new DecimalFormat("#0.000");
+	
+	//Creat password checker utility object for examining passwords
 	PasswordCheckerUtility pwdChecker;
 	
 
@@ -138,6 +142,7 @@ public class PasswordMain extends BorderPane
         			catch (NullPointerException e) {}
         		});
 		
+		//Check a user-entered password
 		checkPwdButton = new Button ("Check _Password");
 		checkPwdButton.setMnemonicParsing(true);
 		checkPwdButton.setTooltip(new Tooltip("Validate the entered password"));
@@ -176,6 +181,7 @@ public class PasswordMain extends BorderPane
         			}
         		});
 		
+		//Button to close and exit the program
 		exitButton = new Button("E_xit");
 		exitButton.setMnemonicParsing(true);
 		exitButton.setTooltip(new Tooltip("Exit the program"));
@@ -187,14 +193,16 @@ public class PasswordMain extends BorderPane
 	                 System.exit(0);
         		}
         	);
-		 
+		
+	    //HBox to hold the three buttons
 		HBox buttonPanel = new HBox();
 		HBox.setMargin(checkPwdButton, new Insets(10,10,10,10));
 		HBox.setMargin(checkPwdsInFileButton, new Insets(10,10,10,10));
 		HBox.setMargin(exitButton, new Insets(10,10,10,10));
 		buttonPanel.setAlignment(Pos.CENTER);
 		buttonPanel.getChildren().addAll(checkPwdButton, checkPwdsInFileButton, exitButton);
-
+		
+		//Set top, center, and bottom regions of the main BorderPane
 		setTop(subpanel);
 		setCenter(subpanel1);
 		setBottom(buttonPanel);

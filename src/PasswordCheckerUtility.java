@@ -1,5 +1,16 @@
 import java.util.ArrayList;
 
+/**
+ * A utility class to examine one or more password for validity following the below criteria:
+ *  * password must be at least 6 characters long
+ *  * password must contain at least one upper case letter
+ *  * password must contain at least one lower case letter
+ *  * pasword must contain at least one numerical digit
+ *  * password may not have 3 identical characters in sequence
+ *  
+ *   @author Michael Meyers
+ *   @version 1.0
+ */
 public class PasswordCheckerUtility {
 	
 	/**
@@ -100,9 +111,10 @@ public class PasswordCheckerUtility {
 	}
 	
 	/**
-	 * Iterate through an ArrayList of passwords and validate each one in turn
-	 * @param passwords
-	 * @return Any invalid passwords found in the argument ArrayList
+	 * Iterate through an ArrayList of passwords and validate each one in turn. Invalid passwords
+	 * will be returned along with their Exception message
+	 * @param passwords an ArrayList of passwords to check
+	 * @return any invalid passwords found in the argument ArrayList
 	 */
 	public ArrayList<String> validPasswords(ArrayList<String> passwords) {
 		

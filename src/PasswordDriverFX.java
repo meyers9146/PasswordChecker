@@ -2,6 +2,11 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Class containing the main methods for launching the PasswordChecker GUI
+ * @author Michael Meyers
+ *
+ */
 public class PasswordDriverFX extends Application{
 	
    /**

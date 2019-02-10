@@ -8,7 +8,7 @@ import org.junit.Test;
 
 /**
  * STUDENT tests for the methods of PasswordChecker
- * @author 
+ * @author Michael Meyers
  *
  */
 public class PasswordCheckerTest_STUDENT {
