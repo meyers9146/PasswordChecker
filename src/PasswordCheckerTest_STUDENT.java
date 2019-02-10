@@ -23,7 +23,7 @@ public class PasswordCheckerTest_STUDENT {
 		passwordA = "P4s5W0rd"; //Valid password, but weak
 		passwordB = "Supercalifragalisticexpialidocious"; //Invalid, no digit
 		passwordC = "he1lO"; //Invalid, too short
-		passwordD = "Yell0wSubMaRin3"; //Invalid, double letters
+		passwordD = "Yelll0wSubMaRin3"; //Invalid, triple letters
 		passwordE = "SUPERSECUR3"; //Invalid, no lower case letters
 		passwordF = "1234567"; //Invalid, no letters
 		passwordG = "onetwothre3"; //Invalid, no upper case
@@ -149,7 +149,7 @@ public class PasswordCheckerTest_STUDENT {
 		//Check for invalid passwords and error codes
 		assertTrue(returnString.contains("Supercalifragalisticexpialidocious The password must contain at least one digit"));
 		assertTrue(returnString.contains("he1lO The password must be at least 6 characters long"));
-		assertTrue(returnString.contains("Yell0wSubMaRin3 The password cannot contain more than two of the same character in sequence"));
+		assertTrue(returnString.contains("Yelll0wSubMaRin3 The password cannot contain more than two of the same character in sequence"));
 		
 		//Check for no false positives among valid passwords
 		assertFalse(returnString.contains("P4s5W0rd"));

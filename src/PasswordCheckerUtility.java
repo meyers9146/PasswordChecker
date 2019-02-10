@@ -12,7 +12,7 @@ public class PasswordCheckerUtility {
 			if (containsUpperCaseLetter(password)) {
 				if (containsLowerCaseLetter(password)) {
 					if (containsNumber(password)) {
-						if (!(hasDoubles(password))) {
+						if (!(hasTriples(password))) {
 							return true;
 						}
 						else throw new InvalidSequenceException();
@@ -81,17 +81,17 @@ public class PasswordCheckerUtility {
 	}
 	
 	/**
-	 * Examine a given password to see if there are any identical
-	 * characeters in sequence
+	 * Examine a given password to see if there are any 3 or more 
+	 * identical characters in sequence
 	 * @param password The String to be examined
 	 * @return True if a matched pair is found, False if none found
 	 */
-	public  boolean hasDoubles(String password) {
+	public  boolean hasTriples(String password) {
 		char[] passwordChars = password.toCharArray();
 		
 		//Return true if any character is identical to the following character
-		for(int i = 0; i < passwordChars.length - 1; i++) {
-			if (passwordChars[i] == passwordChars[i+1]) {
+		for(int i = 0; i < passwordChars.length - 2; i++) {
+			if (passwordChars[i] == passwordChars[i+1] && passwordChars[i+1] == passwordChars[i+2]) {
 				return true;
 			}
 		}
@@ -141,6 +141,11 @@ public class PasswordCheckerUtility {
 		
 	}
 	
+/**
+ * Custom Exception class to be thrown when a read password is fewer than 6 characters
+ * @author Michael Meyers
+ *
+ */
 	@SuppressWarnings("serial")
 	public  class LengthException extends RuntimeException {
 		public LengthException() {
@@ -153,6 +158,12 @@ public class PasswordCheckerUtility {
 		
 	}
 	
+	/**
+	 * Custom Exception class to be thrown when a read password does not
+	 * contain any uppercase characters
+	 * @author Michael Meyers
+	 *
+	 */
 	@SuppressWarnings("serial")
 	public  class NoUpperAlphaException extends RuntimeException {
 		public NoUpperAlphaException() {
@@ -165,6 +176,12 @@ public class PasswordCheckerUtility {
 		}
 	}
 	
+	/**
+	 * Custom Exception class to be thrown when a read password does not contain
+	 * any lower case characters
+	 * @author Michael Meyers
+	 *
+	 */
 	@SuppressWarnings("serial")
 	public  class NoLowerAlphaException extends RuntimeException {
 		public NoLowerAlphaException() {
@@ -177,6 +194,12 @@ public class PasswordCheckerUtility {
 		}
 	}
 	
+	/**
+	 * Custom Exception class to be thrown when a read password does not
+	 * contain any numerical digits
+	 * @author Michael Meyers
+	 *
+	 */
 	@SuppressWarnings("serial")
 	public  class NoDigitException extends RuntimeException {
 		public NoDigitException() {
@@ -188,6 +211,12 @@ public class PasswordCheckerUtility {
 		}
 	}
 	
+	/**
+	 * Custom Exception class to be thrown if a read password has 3 matching
+	 * characters in sequence
+	 * @author Michael Meyers
+	 *
+	 */
 	@SuppressWarnings("serial")
 	public  class InvalidSequenceException extends RuntimeException {
 		public InvalidSequenceException() {

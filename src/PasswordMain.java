@@ -202,7 +202,13 @@ public class PasswordMain extends BorderPane
 	
 	}
 
-
+	/**
+	 * Open a text file of passwords and examine each one for validity
+	 * @return an ArrayList of invalid passwords along with the error messages
+	 * explaining invalidation, or an empty ArrayList if all passwords are valid
+	 * @throws FileNotFoundException if a file is not found
+	 * @throws NullPointerException if the user closes the FileChooser window prematurely
+	 */
 	public ArrayList<String> readFile() throws FileNotFoundException, NullPointerException {
 			
 		//Create ArrayList to return
@@ -214,7 +220,6 @@ public class PasswordMain extends BorderPane
 		File file = fc.showOpenDialog(new Stage());
 		
 		//Open a scanner to read the file
-		
 		Scanner scanner = new Scanner(file);
 	
 		//Read each line from the file and append it to the ArrayList
